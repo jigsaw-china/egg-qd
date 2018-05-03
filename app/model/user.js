@@ -9,8 +9,9 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: STRING(30),
-    age: INTEGER,
+    username: STRING(30),
+    pass: STRING(100),
+    email: STRING(50),
     created_at: DATE,
     updated_at: DATE,
   });

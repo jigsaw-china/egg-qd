@@ -1,5 +1,0 @@
-<script src="public/vendor/jquery/jquery-1.12.3.min.js"></script>
-<script src="public/vendor/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="public/vendor/nano-scroller/nano-scroller.js"></script>
-<script src="public/javascripts/template-script.min.js"></script>
-<script src="public/javascripts/template-init.min.js"></script>

@@ -9,9 +9,9 @@ module.exports = appInfo => {
   // 添加 view 配置
   config.view = {
     defaultViewEngine: 'nunjucks',
-    defaultExtension: '.nj',
+    defaultExtension: '.njk',
     mapping: {
-      '.nj': 'nunjucks',
+      '.njk': 'nunjucks',
     },
   };
 
@@ -29,6 +29,11 @@ module.exports = appInfo => {
     port: '3306',
     username: 'root',
     password: 'root',
+  };
+
+  config.passportLocal = {
+    usernameField: 'username',
+    passwordField: 'pass',
   };
 
   // add your config here
