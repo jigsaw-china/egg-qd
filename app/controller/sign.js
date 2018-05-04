@@ -26,7 +26,7 @@ class SignController extends Controller {
 
     let msg;
     // 验证信息的正确性
-    if ([loginname, pass, rePass, email].some(item => {
+    if ([ loginname, pass, rePass, email ].some(item => {
       return item === '';
     })) {
       msg = '信息不完整。';
@@ -68,9 +68,16 @@ class SignController extends Controller {
     await service.user.newAndSave(loginname, passhash, email);
     // 发送激活邮件
     // await service.mail.sendActiveMail(email, utility.md5(email + passhash + config.session_secret), loginname);
-    await ctx.render('sign/signup', {
+    await ctx.render('sign/signin', {
       success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。',
     });
+  }
+
+  async signout() {
+    const { ctx } = this;
+    ctx.session = null;
+    ctx.logout();
+    ctx.redirect('/');
   }
 }
 

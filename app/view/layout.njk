@@ -45,7 +45,7 @@
                 <div class="header-section hidden-xs" id="notice-headerbox">
                     <div class="notice" id="alerts-notice">
                         <i class="fa fa-bell-o" aria-hidden="true">
-                            <span class="badge badge-xs badge-top-right x-danger">7</span>
+                            <span class="badge badge-xs badge-top-right x-danger">{{ current_user.messages_count }}</span>
                         </i>
                         <div class="dropdown-box basic">
                             <div class="drop-header">
@@ -80,11 +80,11 @@
                 <div class="header-section" id="user-headerbox">
                     <div class="user-header-wrap">
                         <div class="user-photo">
-                            <img src="{{ user.avatar }}" alt="{{ user.nickname }}"/>
+                            <img src="{{ current_user.avatar }}" alt="{{ current_user.username }}"/>
                         </div>
                         <div class="user-info">
-                            <span class="user-name">{{ user.nickname }}</span>
-                            <span class="user-profile">{{ user.roles }}</span>
+                            <span class="user-name">{{ current_user.username }}</span>
+                            <span class="user-profile">{{ current_user.roles }}</span>
                         </div>
                         <i class="fa fa-plus icon-open" aria-hidden="true"></i>
                         <i class="fa fa-minus icon-close" aria-hidden="true"></i>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="header-separator"></div>
                 <div class="header-section">
-                    <a href="/user/logout">
+                    <a href="signout">
                         <i class="fa fa-sign-out log-out" aria-hidden="true"></i>
                     </a>
                 </div>

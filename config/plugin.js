@@ -28,3 +28,8 @@ exports.passportLocal = {
   enable: true,
   package: 'egg-passport-local',
 };
+
+exports.passportQQ = {
+  enable: true,
+  package: 'egg-passport-qq',
+};

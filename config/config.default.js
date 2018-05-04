@@ -21,7 +21,7 @@ module.exports = appInfo => {
     serverUrl: 'https://hacker-news.firebaseio.com/v0',
   };
 
-  // 添加 数据库配置
+  // 数据库配置
   config.sequelize = {
     dialect: 'mysql',
     database: 'egg-qd',
@@ -36,8 +36,23 @@ module.exports = appInfo => {
     passwordField: 'pass',
   };
 
+  config.passportQQ = {
+    key: '101474166',
+    secret: '85805ccb4b1a82314702907c49db8c25',
+  };
+
+  config.auth_cookie_name = 'egg-qd';
+  config.admins = {
+    ADMIN_USER: true,
+  };
+
   // add your config here
-  config.middleware = [];
+  config.middleware = [ 'authUser' ];
+
+  config.authUser = {
+    enable: true,
+    match: '/',
+  };
 
   return config;
 };
