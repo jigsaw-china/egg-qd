@@ -9,16 +9,23 @@
     <link rel="icon" type="image/png" sizes="192x192" href="public/favicon/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="public/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon/favicon-16x16.png">
-    <script src="/public/vendor/pace/pace.min.js"></script>
-    <link rel="stylesheet" href="public/vendor/pace/pace-theme-minimal.css" rel="stylesheet">
+    <!-- scripts -->
+    {% Loader.file('/public/vendor/pace/pace.min.js')
+        .done(assets, config.site_static_host, config.mini_assets) %}
+    {% Loader.file('/public/vendor/pace/pace-theme-minimal.css')
+        .done(assets, config.site_static_host, config.mini_assets) %}
     {% block head %}
-        <link rel="stylesheet" href="public/vendor/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="public/vendor/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="public/vendor/animate.css/animate.css">
-        <link rel="stylesheet" href="public/vendor/toastr/toastr.min.css">
-        <link rel="stylesheet" href="public/vendor/magnific-popup/magnific-popup.css">
-        <link rel="stylesheet" href="public/stylesheets/css/style.css">
+        <!-- style -->
+        {% Loader.file('/public/vendor/bootstrap/css/bootstrap.css')
+            .css('/public/vendor/font-awesome/css/font-awesome.min.css')
+            .css('/public/vendor/animate.css/animate.css')
+            .css('/public/vendor/toastr/toastr.min.css')
+            .css('/public/vendor/magnific-popup/magnific-popup.css')
+            .css('/public/stylesheets/css/style.csss')
+            .done(assets, config.site_static_host, config.mini_assets) %}
     {% endblock %}
+    <meta content="_csrf" name="csrf-param">
+    <meta content="<%= csrf %>" name="csrf-token">
 </head>
 <body>
 <div class="wrap">
@@ -239,11 +246,13 @@
         </div>
     {% endblock %}
     {% block foot %}
-        <script src="public/vendor/jquery/jquery-1.12.3.min.js"></script>
-        <script src="public/vendor/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script src="public/vendor/nano-scroller/nano-scroller.js"></script>
-        <script src="public/javascripts/template-script.min.js"></script>
-        <script src="public/javascripts/template-init.min.js"></script>
+        <!-- scripts -->
+        {% Loader.file('/public/vendor/jquery/jquery-1.12.3.min.js')
+            .js('/public/vendor/bootstrap/3.3.4/js/bootstrap.min.js')
+            .js('/public/vendor/nano-scroller/nano-scroller.js')
+            .js('/public/javascripts/template-script.min.js')
+            .js('/public/javascripts/template-init.min.js')
+            .done(assets, config.site_static_host, config.mini_assets) %}
     {% endblock %}
 </div>
 </body>

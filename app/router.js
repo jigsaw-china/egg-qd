@@ -31,4 +31,8 @@ module.exports = app => {
   // 退出
   router.get('/signout', controller.sign.signout);
 
+  // 网站
+  router.get('/site/index', controller.site.index);
+  router.get('/site/upload', controller.site.upload);
+
 };

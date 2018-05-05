@@ -1,0 +1,10 @@
+{% extends "layout.njk" %}
+{% block content %}
+    <div class="row animated fadeInUp">
+        <form method="POST" action="site/upload?_csrf={{ ctx.csrf | safe }}" enctype="multipart/form-data">
+            title: <input name="title"/>
+            file: <input name="file" type="file"/>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+{% endblock %}

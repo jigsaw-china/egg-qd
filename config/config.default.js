@@ -6,6 +6,10 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1525226392025_2580';
 
+  // 静态文件存储域名
+  config.site_static_host = 'http://192.168.0.6:7001';
+  config.mini_assets = process.env.EGG_MINI_ASSETS || false;
+
   // 添加 view 配置
   config.view = {
     defaultViewEngine: 'nunjucks',
@@ -13,12 +17,6 @@ module.exports = appInfo => {
     mapping: {
       '.njk': 'nunjucks',
     },
-  };
-
-  // 添加 news 的配置项
-  config.news = {
-    pageSize: 5,
-    serverUrl: 'https://hacker-news.firebaseio.com/v0',
   };
 
   // 数据库配置
@@ -44,6 +42,14 @@ module.exports = appInfo => {
   config.auth_cookie_name = 'egg-qd';
   config.admins = {
     ADMIN_USER: true,
+  };
+
+  // 上传配置
+  config.multipart = {
+    fileSize: '50mb',
+    whitelist: [
+      '.png',
+    ],
   };
 
   // add your config here
