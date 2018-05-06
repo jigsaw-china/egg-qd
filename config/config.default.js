@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1525226392025_2580';
 
   // 静态文件存储域名
-  config.site_static_host = 'http://192.168.0.6:7001';
+  config.site_static_host = 'http://127.0.0.1:7001';
   config.mini_assets = process.env.EGG_MINI_ASSETS || false;
 
   // 添加 view 配置
@@ -48,12 +48,12 @@ module.exports = appInfo => {
   config.multipart = {
     fileSize: '50mb',
     whitelist: [
-      '.png',
+      '.zip',
     ],
   };
 
   // add your config here
-  config.middleware = [ 'authUser' ];
+  config.middleware = [ 'locals', 'authUser' ];
 
   config.authUser = {
     enable: true,

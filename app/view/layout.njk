@@ -1,31 +1,35 @@
 <!doctype html>
-<html lang="en" class="fixed{% block html_class %}{% endblock %}">
+<html lang="en" class="fixed{% block html_class %}{%  endblock %}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>Helsinki</title>
-    <link rel="apple-touch-icon" sizes="120x120" href="public/favicon/apple-icon-120x120.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="public/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ config.site_static_host }}/public/favicon/apple-icon-120x120.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="<%- config.site_static_host }}/public/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ config.site_static_host }}/public/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ config.site_static_host }}/public/favicon/favicon-16x16.png">
     <!-- scripts -->
-    {% Loader.file('/public/vendor/pace/pace.min.js')
-        .done(assets, config.site_static_host, config.mini_assets) %}
-    {% Loader.file('/public/vendor/pace/pace-theme-minimal.css')
-        .done(assets, config.site_static_host, config.mini_assets) %}
+    {{ Loader('/public/pace/pace.min.js')
+    .js('/public/vendor/pace/pace.min.js')
+    .done(assets, config.site_static_host, config.mini_assets) | safe }}
+    {{ Loader('/public/pace/pace-theme-minimal.css')
+    .css('/public/vendor/pace/pace-theme-minimal.css')
+    .done(assets, config.site_static_host, config.mini_assets) | safe }}
+
     {% block head %}
         <!-- style -->
-        {% Loader.file('/public/vendor/bootstrap/css/bootstrap.css')
-            .css('/public/vendor/font-awesome/css/font-awesome.min.css')
-            .css('/public/vendor/animate.css/animate.css')
-            .css('/public/vendor/toastr/toastr.min.css')
-            .css('/public/vendor/magnific-popup/magnific-popup.css')
-            .css('/public/stylesheets/css/style.csss')
-            .done(assets, config.site_static_host, config.mini_assets) %}
+        {{ Loader('/public/index.min.css')
+        .css('/public/vendor/bootstrap/css/bootstrap.css')
+        .css('/public/vendor/font-awesome/css/font-awesome.min.css')
+        .css('/public/vendor/animate.css/animate.css')
+        .css('/public/vendor/toastr/toastr.min.css')
+        .css('/public/vendor/magnific-popup/magnific-popup.css')
+        .css('/public/stylesheets/css/style.css')
+        .done(assets, config.site_static_host, config.mini_assets) | safe }}
     {% endblock %}
     <meta content="_csrf" name="csrf-param">
-    <meta content="<%= csrf %>" name="csrf-token">
+    <meta content="{{ csrf }}" name="csrf-token">
 </head>
 <body>
 <div class="wrap">
@@ -33,8 +37,8 @@
         <div class="page-header">
             <div class="leftside-header">
                 <div class="logo">
-                    <a href="index.html" class="on-click">
-                        <img alt="logo" src="public/images/header-logo.png"/>
+                    <a href="/" class="on-click">
+                        <img alt="logo" src="{{ config.site_static_host }}/public/images/header-logo.png"/>
                     </a>
                 </div>
                 <div id="menu-toggle" class="visible-xs toggle-left-sidebar" data-toggle-class="left-sidebar-open"
@@ -149,10 +153,10 @@
                                     </a>
                                     <ul class="nav child-nav level-1">
                                         <li>
-                                            <a href="/product">网站列表</a>
+                                            <a href="/site/list">网站列表</a>
                                         </li>
                                         <li>
-                                            <a href="/product/add">添加网站</a>
+                                            <a href="/site/index">添加网站</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -217,22 +221,22 @@
                             <ul class="toggle-colors">
                                 <li>
                                     <a href="index.html" class="on-click">
-                                        <img alt="Helsinki-green" src="public/images/helsinki-green.png"/>
+                                        <img alt="Helsinki-green" src="{{ config.site_static_host }}/public/images/helsinki-green.png"/>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="../helsinki-light/index.html" class="on-click">
-                                        <img alt="Helsinki-light" src="public/images/helsinki-light.png"/>
+                                        <img alt="Helsinki-light" src="{{ config.site_static_host }}/public/images/helsinki-light.png"/>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="../helsinki-blue/index.html" class="on-click">
-                                        <img alt="Helsinki-blue" src="public/images/helsinki-blue.png"/>
+                                        <img alt="Helsinki-blue" src="{{ config.site_static_host }}/public/images/helsinki-blue.png"/>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="../helsinki-red/index.html" class="on-click">
-                                        <img alt="Helsinki-red" src="public/images/helsinki-red.png"/>
+                                        <img alt="Helsinki-red" src="{{ config.site_static_host }}/public/images/helsinki-red.png"/>
                                     </a>
                                 </li>
                             </ul>
@@ -245,16 +249,17 @@
             </a>
         </div>
     {% endblock %}
-    {% block foot %}
-        <!-- scripts -->
-        {% Loader.file('/public/vendor/jquery/jquery-1.12.3.min.js')
-            .js('/public/vendor/bootstrap/3.3.4/js/bootstrap.min.js')
-            .js('/public/vendor/nano-scroller/nano-scroller.js')
-            .js('/public/javascripts/template-script.min.js')
-            .js('/public/javascripts/template-init.min.js')
-            .done(assets, config.site_static_host, config.mini_assets) %}
-    {% endblock %}
 </div>
+{% block foot %}
+    <!-- scripts -->
+    {{ Loader('/public/index.min.js')
+    .js('/public/vendor/jquery/jquery-1.12.3.min.js')
+    .js('/public/vendor/bootstrap/3.3.4/js/bootstrap.min.js')
+    .js('/public/vendor/nano-scroller/nano-scroller.js')
+    .js('/public/javascripts/template-script.min.js')
+    .js('/public/javascripts/template-init.min.js')
+    .done(assets, config.site_static_host, config.mini_assets) | safe }}
+{% endblock %}
 </body>
 
 </html>

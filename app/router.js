@@ -33,6 +33,8 @@ module.exports = app => {
 
   // 网站
   router.get('/site/index', controller.site.index);
-  router.get('/site/upload', controller.site.upload);
+  router.post('/site/save', controller.site.save);
+  router.get('/site/list', controller.site.list);
+
 
 };

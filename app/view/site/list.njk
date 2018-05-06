@@ -1,0 +1,10 @@
+{% extends "layout.njk" %}
+{% block content %}
+    <div class="row animated fadeInUp">
+        <ul>
+            {% for item in sites %}
+                <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

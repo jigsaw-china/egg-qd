@@ -2,7 +2,7 @@
 
 const Service = require('egg').Service;
 
-class NewsService extends Service {
+class UserService extends Service {
   async find(id) {
     const user = await this.ctx.model.User.findById(id);
     if (!user) {
@@ -68,4 +68,4 @@ class NewsService extends Service {
   }
 }
 
-module.exports = NewsService;
+module.exports = UserService;

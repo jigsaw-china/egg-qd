@@ -20,7 +20,7 @@ md.set({
 });
 
 md.renderer.rules.fence = (tokens, idx) => {
-  const token = tokens[idx];
+  const token = tokens[ idx ];
   let language = (token.info && 'language-' + token.info) || '';
   language = validator.escape(language);
 
@@ -36,7 +36,7 @@ md.renderer.rules.fence = (tokens, idx) => {
 };
 
 md.renderer.rules.code_block = (tokens, idx /* , options */) => {
-  const token = tokens[idx];
+  const token = tokens[ idx ];
 
   return (
     '<pre class="prettyprint">' +
@@ -80,4 +80,11 @@ exports.bhash = str => {
 
 exports.bcompare = (str, hash) => {
   return bcrypt.compareSync(str, hash);
+};
+
+exports.staticFile = function(filePath) {
+  if (filePath.indexOf('http') === 0 || filePath.indexOf('//') === 0) {
+    return filePath;
+  }
+  return this.app.config.site_static_host + filePath;
 };
