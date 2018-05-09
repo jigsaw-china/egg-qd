@@ -25,6 +25,8 @@
         .css('/public/vendor/animate.css/animate.css')
         .css('/public/vendor/toastr/toastr.min.css')
         .css('/public/vendor/magnific-popup/magnific-popup.css')
+        .css('/public/vendor/select2/css/select2.min.css')
+        .css('/public/vendor/select2/css/select2-bootstrap.min.css')
         .css('/public/stylesheets/css/style.css')
         .done(assets, config.site_static_host, config.mini_assets) | safe }}
     {% endblock %}
@@ -146,7 +148,7 @@
                                         <span>Dashboard</span>
                                     </a>
                                 </li>
-                                <li class="has-child-item close-item">
+                                <li class="has-child-item open-item">
                                     <a>
                                         <i class="fa fa-cubes" aria-hidden="true"></i>
                                         <span>网站管理</span>
@@ -259,6 +261,8 @@
     .js('/public/javascripts/template-script.min.js')
     .js('/public/javascripts/template-init.min.js')
     .done(assets, config.site_static_host, config.mini_assets) | safe }}
+{% endblock %}
+{% block script %}
 {% endblock %}
 </body>
 

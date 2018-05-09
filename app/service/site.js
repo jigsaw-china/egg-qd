@@ -16,7 +16,6 @@ class SiteService extends Service {
   }
 
   newAndSave(title, des, url) {
-    console.log(title);
     const site = new this.ctx.model.Site();
     site.title = title;
     site.des = des;

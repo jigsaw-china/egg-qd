@@ -2,11 +2,11 @@
 const qqStrategy = require('passport-qq').Strategy;
 
 module.exports = app => {
-  if (app.config.env === 'local') {
-    app.beforeStart(function* () {
-      yield app.model.sync({ force: true });
-    });
-  }
+  // if (app.config.env === 'local') {
+  //   app.beforeStart(function* () {
+  //     yield app.model.sync({ force: true });
+  //   });
+  // }
 
   // 包有点问题，重写一下
   const config = app.config.passportQQ;

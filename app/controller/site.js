@@ -11,8 +11,9 @@ const validator = require('validator');
 class SiteController extends Controller {
 
   async index() {
-    const { ctx } = this;
-    await ctx.render('/site/index', { pageTitle: '网站' });
+    const { ctx, service } = this;
+    const tags = await service.tag.findAll();
+    await ctx.render('/site/index', { pageTitle: '网站', tags });
   }
 
   async list() {
@@ -27,6 +28,7 @@ class SiteController extends Controller {
     const stream = await this.ctx.getFileStream();
     const title = validator.trim(stream.fields.title || '').toLowerCase();
     const des = validator.trim(stream.fields.des || '').toLowerCase();
+    const tags = stream.fields.tags;
 
     let msg;
     // 验证信息的正确性
@@ -36,11 +38,10 @@ class SiteController extends Controller {
       msg = '信息不完整。';
     }
     // END 验证信息的正确性
-
     if (msg) {
       console.log(msg);
-      console.log(1333311);
       ctx.status = 422;
+      await sendToWormhole(stream);
       await ctx.render('site/index', {
         error: msg,
         title,
@@ -63,8 +64,40 @@ class SiteController extends Controller {
 
     const url = config.site_static_host + '/public/upload/site/' + filename.slice(0, filename.lastIndexOf('.')) + '/index.html';
 
-    // 保存到数据库
-    await service.site.newAndSave(title, des, url);
+    // 保存网站
+    await service.site.newAndSave(title, des, url)
+      .then(function(site) {
+        // 选择了标签
+        if (tags) {
+          const records = [];
+          const records_tag = [];
+          tags.forEach(function(tag) {
+            if (isNaN(tag)) {
+              records.push({ title: tag });
+            } else {
+              records_tag.push({
+                site_id: site.id,
+                tag_id: tag,
+              });
+            }
+          });
+
+          // 保存标签
+          service.tag.bulkCreate(records)
+            .then(function(list) {
+              if (site.id) {
+                list.forEach(function(tag) {
+                  records_tag.push({
+                    site_id: site.id,
+                    tag_id: tag.id,
+                  });
+                });
+                // 保存标签关联
+                service.tag.bulkCreateSite(records_tag);
+              }
+            });
+        }
+      });
 
     await ctx.redirect('/site/list');
   }
