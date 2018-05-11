@@ -17,15 +17,11 @@ class UserService extends Service {
    * @return {Promise[user]} 承载用户的 Promise 对象
    */
   async getUserById(id) {
-    if (!id) {
-      return null;
+    const user = await this.ctx.model.User.findById(id);
+    if (!user) {
+      this.ctx.throw(404, 'user not found');
     }
-
-    return await this.ctx.model.User.findOne({
-      where: {
-        id,
-      },
-    });
+    return user;
   }
 
   /*
@@ -42,15 +38,11 @@ class UserService extends Service {
   }
 
   /*
- * 根据用户ID，查找用户
- * @param {String} id 用户qqId
- * @return {Promise[user]} 承载用户的 Promise 对象
- */
+   * 根据用户ID，查找用户
+   * @param {String} id 用户qqId
+   * @return {Promise[user]} 承载用户的 Promise 对象
+   */
   async getUserByQQId(qqId) {
-    if (!qqId) {
-      return null;
-    }
-
     return await this.ctx.model.User.findOne({
       where: {
         qqId,

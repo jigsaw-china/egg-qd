@@ -1,10 +1,48 @@
 {% extends "layout.njk" %}
 {% block content %}
     <div class="row animated fadeInUp">
-        <ul>
-            {% for item in sites %}
-                <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-            {% endfor %}
-        </ul>
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-content">
+                    <div class="table-responsive">
+                        <table id="basic-table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>描述</th>
+                                <th>地址</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in sites %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></td>
+                                    <td>{{ item.des }}</td>
+                                    <td>{{ item.url }}</td>
+                                    <td title="{{ helper.relativeTime(item.updated_at) }}">{{ helper.ago(item.updated_at) }}</td>
+                                    <td><a href="/site/{{ item.id }}/edit">编辑</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <!-- scripts -->
+    {{ Loader('/public/site.list.min.js')
+    .js('/public/vendor/data-table/media/js/jquery.dataTables.min.js')
+    .js('/public/vendor/data-table/media/js/dataTables.bootstrap.min.js')
+    .done(assets, config.site_static_host, config.mini_assets) | safe }}
+    <script>
+      $('.data-table').DataTable({});
+    </script>
 {% endblock %}

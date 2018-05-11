@@ -15,6 +15,17 @@ class TagService extends Service {
     return await this.ctx.model.Tag.findAll();
   }
 
+  // 返回 tag_ids
+  async findTagsById(sid) {
+    return await this.ctx.model.SiteTag.findAll({
+      where: {
+        site_id: sid,
+      },
+    }).map(function(item) {
+      return item.tag_id;
+    });
+  }
+
   async bulkCreate(records) {
     return this.ctx.model.Tag.bulkCreate(records);
   }

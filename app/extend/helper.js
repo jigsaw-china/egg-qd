@@ -70,6 +70,8 @@ exports.ago = function(date) {
   return date.fromNow();
 };
 
+exports.relativeTime = date => moment(date).format('MMMM Do YYYY, h:mm:ss a');
+
 exports.validateId = str => {
   return /^[a-zA-Z0-9\-_]+$/i.test(str);
 };
@@ -82,6 +84,7 @@ exports.bcompare = (str, hash) => {
   return bcrypt.compareSync(str, hash);
 };
 
+// 静态文件地址
 exports.staticFile = function(filePath) {
   if (filePath.indexOf('http') === 0 || filePath.indexOf('//') === 0) {
     return filePath;

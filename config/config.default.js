@@ -52,12 +52,17 @@ module.exports = appInfo => {
     ],
   };
 
+  // 404
+  // config.notfound = {
+  //   pageUrl: '/404',
+  // };
+
   // add your config here
   config.middleware = [ 'locals', 'authUser' ];
 
   config.authUser = {
     enable: true,
-    match: '/',
+    match: '/admin',
   };
 
   return config;

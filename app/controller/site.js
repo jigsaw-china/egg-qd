@@ -9,19 +9,53 @@ const unzip = require('unzip');
 const validator = require('validator');
 
 class SiteController extends Controller {
-
+  /**
+   * 显示创建页面
+   */
   async index() {
     const { ctx, service } = this;
     const tags = await service.tag.findAll();
     await ctx.render('/site/index', { pageTitle: '网站', tags });
   }
 
+  /**
+   * 显示创建页面
+   */
+  async showEdit() {
+    const { ctx, service } = this;
+    const sid = ctx.params.sid;
+
+    if (isNaN(sid)) {
+      ctx.status = 404;
+      ctx.message = '此网站不存在或已被删除。';
+      return;
+    }
+    const site = await service.site.find(sid);
+    const tags = await service.tag.findAll();
+    const tag_ids = await service.tag.findTagsById(sid);
+
+    tags.map(function(tag) {
+      if (tag_ids.includes(tag.id)) {
+        tag.selected = true;
+      }
+      return tag;
+    });
+
+    await ctx.render('/site/index', { pageTitle: '网站', site, tags });
+  }
+
+  /**
+   * 显示列表页面
+   */
   async list() {
     const { ctx, service } = this;
     const sites = await service.site.findAll();
     await ctx.render('/site/list', { sites });
   }
 
+  /**
+   * 保存网站
+   */
   async save() {
     const { ctx, service, config } = this;
 
@@ -65,39 +99,34 @@ class SiteController extends Controller {
     const url = config.site_static_host + '/public/upload/site/' + filename.slice(0, filename.lastIndexOf('.')) + '/index.html';
 
     // 保存网站
-    await service.site.newAndSave(title, des, url)
-      .then(function(site) {
-        // 选择了标签
-        if (tags) {
-          const records = [];
-          const records_tag = [];
-          tags.forEach(function(tag) {
-            if (isNaN(tag)) {
-              records.push({ title: tag });
-            } else {
-              records_tag.push({
-                site_id: site.id,
-                tag_id: tag,
-              });
-            }
-          });
+    const site = await service.site.newAndSave(title, des, url);
 
-          // 保存标签
-          service.tag.bulkCreate(records)
-            .then(function(list) {
-              if (site.id) {
-                list.forEach(function(tag) {
-                  records_tag.push({
-                    site_id: site.id,
-                    tag_id: tag.id,
-                  });
-                });
-                // 保存标签关联
-                service.tag.bulkCreateSite(records_tag);
-              }
-            });
-        }
+    const records = [];
+    const records_tag = [];
+
+    // 选择了标签
+    tags && tags.forEach(function(tag) {
+      if (isNaN(tag)) {
+        records.push({ title: tag });
+      } else {
+        records_tag.push({
+          site_id: site.id,
+          tag_id: tag,
+        });
+      }
+    });
+
+    // 保存标签
+    const tag_list = await service.tag.bulkCreate(records);
+    tag_list.forEach(function(tag) {
+      records_tag.push({
+        site_id: site.id,
+        tag_id: tag.id,
       });
+    });
+
+    // 保存标签关联
+    await service.tag.bulkCreateSite(records_tag);
 
     await ctx.redirect('/site/list');
   }
