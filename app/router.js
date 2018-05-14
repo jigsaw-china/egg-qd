@@ -34,10 +34,13 @@ module.exports = app => {
   router.get('/signout', controller.sign.signout);
 
   // 网站管理
-  router.get('/site/index', controller.site.index); // 创建页面
+  router.get('/site/create', controller.site.create); // 创建页面
+  router.post('/site/create', controller.site.save); // 保存网站
+
   router.get('/site/:sid/edit', controller.site.showEdit); // 显示编辑页面
+  router.post('/site/:sid/edit', controller.site.update); // 更新网站
+
   router.get('/site/list', controller.site.list); // 显示网站列表
-  router.post('/site/save', controller.site.save); // 保存网站
 
 
 };

@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class SiteService extends Service {
-  async find(id) {
+  async findById(id) {
     const site = await this.ctx.model.Site.findById(id);
     if (!site) {
       this.ctx.throw(404, 'site not found');
