@@ -4593,3 +4593,9 @@ html.left-sidebar-collapsed .c-hamburger--htla span::after {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* site */
+.file-input .btn{margin-bottom: auto;}
+.data-table .img-thumbnail{width: 100px;height: 100px;}
+
+#site_form .img-thumbnail{max-width: 250px;}

@@ -33,3 +33,8 @@ exports.passportQQ = {
   enable: true,
   package: 'egg-passport-qq',
 };
+
+exports.routerPlus = {
+  enable: true,
+  package: 'egg-router-plus',
+};

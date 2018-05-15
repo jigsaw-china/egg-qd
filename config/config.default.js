@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 
 module.exports = appInfo => {
   const config = exports = {};
@@ -9,6 +10,12 @@ module.exports = appInfo => {
   // 静态文件存储域名
   config.site_static_host = 'http://127.0.0.1:7001';
   config.mini_assets = process.env.EGG_MINI_ASSETS || false;
+
+  // 文件上传配置
+  config.upload = {
+    path: path.join(__dirname, '../app/public/upload/'),
+    url: config.site_static_host + '/public/upload/',
+  };
 
   // 添加 view 配置
   config.view = {
@@ -48,6 +55,8 @@ module.exports = appInfo => {
   config.multipart = {
     fileSize: '50mb',
     whitelist: [
+      '.jpg',
+      '.png',
       '.zip',
     ],
   };

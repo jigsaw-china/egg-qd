@@ -5,12 +5,13 @@
             <div class="panel">
                 <div class="panel-content">
                     <div class="table-responsive">
-                        <table id="basic-table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="100%">
+                        <table id="data_table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>标题</th>
                                 <th>描述</th>
+                                <th>图片</th>
                                 <th>地址</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
@@ -20,11 +21,15 @@
                             {% for item in sites %}
                                 <tr>
                                     <td>{{ item.id }}</td>
-                                    <td><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></td>
+                                    <td><a href="/site/{{ item.id }}/edit">{{ item.title }}</a></td>
                                     <td>{{ item.des }}</td>
-                                    <td>{{ item.url }}</td>
+                                    <td><img class="img-thumbnail" src="{{ item.image }}" alt="未上传" title="" onerror="this.style.display='none'"/></td>
+                                    <td><a href="{{ item.url }}" target="_blank">{{ item.url }}</a></td>
                                     <td title="{{ helper.relativeTime(item.updated_at) }}">{{ helper.ago(item.updated_at) }}</td>
-                                    <td><a href="/site/{{ item.id }}/edit">编辑</a></td>
+                                    <td>
+                                        <a href="/site/{{ item.id }}/edit">编辑</a>
+                                        <a class="del" href="/site/{{ item.id }}/del">删除</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -43,6 +48,15 @@
     .js('/public/vendor/data-table/media/js/dataTables.bootstrap.min.js')
     .done(assets, config.site_static_host, config.mini_assets) | safe }}
     <script>
-      $('.data-table').DataTable({});
+      $('#data_table').DataTable({ pageLength: 10 });
+
+      $('#data_table .del').click(function(e) {
+        e.preventDefault();
+        var _this = this, href = $(_this).attr('href') + '?_csrf={{ csrf }}';
+        $.post(href, function(data) {
+          console.log(data);
+          $(_this).closest('tr').remove();
+        });
+      })
     </script>
 {% endblock %}

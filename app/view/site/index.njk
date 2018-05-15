@@ -6,16 +6,8 @@
                 <div class="panel-content">
                     <div class="row">
                         <div class="col-md-12">
-                            <form class="form-horizontal form-stripe" role="form" method="POST"
-                                    {% if site %}
-                                        action="/site/{{ sid }}/edit?_csrf={{ csrf }}"
-                                    {% else %}
-                                        action="/site/create?_csrf={{ csrf }}"
-                                    {% endif %}
-                                  enctype="multipart/form-data">
-                                {% if site %}
-                                    <input type="hidden" name="edit" value="1">
-                                {% endif %}
+                            <form class="form-horizontal form-stripe" id="site_form" role="form" method="POST"
+                                  action="/site/{{ sid + '/edit' if site else 'create' }}?_csrf={{ csrf }}">
                                 <div class="form-group">
                                     <label for="title" class="col-sm-2 control-label">标题
                                         <span class="required" aria-required="true">*</span>
@@ -35,7 +27,7 @@
                                 <div class="form-group">
                                     <label for="select2-example-tags" class="col-sm-2 control-label">标签</label>
                                     <div class="col-sm-10">
-                                        <select name="tags" id="select2-example-tags" class="form-control select-tag-primary" multiple="multiple" style="width: 100%">
+                                        <select name="tags[]" id="select2-example-tags" class="form-control select-tag-primary" multiple="multiple" style="width: 100%">
                                             <optgroup label="热门标签">
                                             </optgroup>
                                             <optgroup label="所有标签">
@@ -51,12 +43,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputfile" class="col-sm-2 control-label">源文件
+                                    <label for="upload_image" class="col-sm-2 control-label">图片
                                         <span class="required" aria-required="true">*</span>
                                     </label>
                                     <div class="col-sm-10">
-                                        <input type="file" name="file" id="inputfile">
-                                        {{ site.url }}
+                                        <input type="file" class="file" name="file" id="upload_image">
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10 mt-sm">
+                                        <input type="hidden" name="image" id="img" value="{{ site.image }}">
+                                        <img class="img-thumbnail" src="{{ site.image }}" alt="未上传" title="" onerror="this.style.display='none'" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="upload_file" class="col-sm-2 control-label">源文件
+                                        <span class="required" aria-required="true">*</span>
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="file" name="file" id="upload_file">
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10 mt-sm">
+                                        <input type="hidden" name="url" id="url" value="{{ site.url }}">
+                                        <a href="{{ site.url }}" target="_blank">{{ site.url }}</a>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -77,6 +84,8 @@
     <!-- scripts -->
     {{ Loader('/public/site.min.js')
     .js('/public/vendor/select2/js/select2.min.js')
+    .js('/public/vendor/bootstrap-fileinput/js/fileinput.min.js')
+    .js('/public/vendor/bootstrap-fileinput/js/locales/zh.js')
     .done(assets, config.site_static_host, config.mini_assets) | safe }}
     <script>
       //Set bootstrap theme
@@ -98,6 +107,39 @@
             return null;
           }
         }
+      });
+
+      //初始化控件
+      $("#upload_image").fileinput({
+        language: 'zh',
+        uploadUrl: "/upload?img=1&_csrf={{ csrf }}",
+        allowedFileExtensions: [ 'jpg','png' ],
+        overwriteInitial: false,
+        dropZoneEnabled: false,
+        maxFileSize: 1024 * 10,
+        maxFilesNum: 1,
+        slugCallback: function(filename) {
+          return filename.replace('(', '_').replace(']', '_');
+        }
+      }).on("fileuploaded", function(event, data, previewId, index) {
+        const { url } = data.response;
+        $('#img').val(url).next().attr({ 'src': url }).show();
+      });
+
+      $("#upload_file").fileinput({
+        language: 'zh',
+        uploadUrl: "/upload?_csrf={{ csrf }}",
+        allowedFileExtensions: [ 'zip' ],
+        overwriteInitial: false,
+        dropZoneEnabled: false,
+        maxFileSize: 1024 * 10,
+        maxFilesNum: 1,
+        slugCallback: function(filename) {
+          return filename.replace('(', '_').replace(']', '_');
+        }
+      }).on("fileuploaded", function(event, data, previewId, index) {
+        const { url } = data.response;
+        $('#url').val(url).next().attr({ 'href': url }).text(url);
       });
     </script>
 {% endblock %}

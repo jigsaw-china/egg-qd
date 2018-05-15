@@ -30,8 +30,16 @@ class TagService extends Service {
     return this.ctx.model.Tag.bulkCreate(records);
   }
 
+  // 关联关系
   async bulkCreateSite(records) {
     return this.ctx.model.SiteTag.bulkCreate(records);
+  }
+
+  // 删除关联关系
+  async delBySiteId(site_id) {
+    return this.ctx.model.SiteTag.destroy({
+      where: { site_id },
+    });
   }
 }
 
