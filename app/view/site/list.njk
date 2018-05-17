@@ -13,6 +13,7 @@
                                 <th>描述</th>
                                 <th>图片</th>
                                 <th>地址</th>
+                                <th>浏览量</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
                             </tr>
@@ -25,6 +26,7 @@
                                     <td>{{ item.des }}</td>
                                     <td><img class="img-thumbnail" src="{{ item.image }}" alt="未上传" title="" onerror="this.style.display='none'"/></td>
                                     <td><a href="{{ item.url }}" target="_blank">{{ item.url }}</a></td>
+                                    <td>{{ item.visit_count }}</td>
                                     <td title="{{ helper.relativeTime(item.updated_at) }}">{{ helper.ago(item.updated_at) }}</td>
                                     <td>
                                         <a href="/site/{{ item.id }}/edit">编辑</a>

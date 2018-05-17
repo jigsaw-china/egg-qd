@@ -20,7 +20,7 @@ module.exports = {
     'autod-egg',
     'eslint',
     'eslint-config-egg',
-    'webstorm-disable-index',
+    'webstorm-disable-portal',
   ],
   exclude: [
     './test/fixtures',

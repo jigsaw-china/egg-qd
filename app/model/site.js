@@ -14,6 +14,18 @@ module.exports = app => {
     image: STRING(255),
     url: STRING(255),
     user_id: INTEGER,
+    // 浏览量
+    visit_count: {
+      type: INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    // 收藏量
+    collect_count: {
+      type: INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
     created_at: DATE,
     updated_at: DATE,
     deleted: {

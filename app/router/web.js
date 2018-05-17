@@ -5,7 +5,11 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  // 首页
+
+  // 前台首页
+  router.get('/', controller.portal.index);
+
+  // 后台首页
   router.get('/admin', controller.home.index);
 
   // 注册页面

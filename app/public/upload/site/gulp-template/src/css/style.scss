@@ -1,0 +1,8 @@
+// 这种注释内容不会出现在生成的css文件中
+// 导入
+
+@import "include/common";     // common
+@import "include/head";       // head
+@import "include/nav";        // nav
+@import "include/index";      // index
+@import "include/foot";       // foot

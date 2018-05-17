@@ -40,7 +40,7 @@ class SiteController extends Controller {
       return tag;
     });
 
-    await ctx.render('/site/index', { sid, site, tags });
+    await ctx.render('/site/portal', { sid, site, tags });
   }
 
   /**

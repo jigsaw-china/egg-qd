@@ -10,5 +10,6 @@ module.exports = app => {
   const { site } = controller.api;
 
   // 所有网站
-  apiV1Router.get('/sites', site.index);
+  apiV1Router.get('/sites', site.list);
+  apiV1Router.get('/sites/:id', site.index);
 };

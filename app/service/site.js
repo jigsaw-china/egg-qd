@@ -19,6 +19,10 @@ class SiteService extends Service {
     });
   }
 
+  async findAllByQuery(options) {
+    return await this.ctx.model.Site.findAll(options);
+  }
+
   async newAndSave(title, des, image, url) {
     const site = new this.ctx.model.Site();
     site.title = title;

@@ -6,7 +6,6 @@ class HomeController extends Controller {
   async index() {
     const ctx = this.ctx;
     const locals = { username: 'egg' };
-
     await ctx.render('index', locals);
   }
 }

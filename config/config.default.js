@@ -69,10 +69,18 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [ 'locals', 'authUser' ];
 
+  config.locals = {
+    enable: true,
+    ignore: '/api/*/*',
+  }
+
   config.authUser = {
     enable: true,
     match: '/admin',
   };
+
+  config.default_page = 1;
+  config.default_limit = 10;
 
   return config;
 };
