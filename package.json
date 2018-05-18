@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "async": "^2.6.0",
     "await-stream-ready": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "egg": "^2.8.1",

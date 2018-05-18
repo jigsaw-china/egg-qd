@@ -43,8 +43,21 @@ module.exports = app => {
 
   router.get('/site/:sid/edit', controller.site.showEdit); // 显示编辑页面
   router.post('/site/:sid/edit', controller.site.update); // 更新网站
-  router.post('/site/:sid/del', controller.site.delete); // 更新网站
+  router.post('/site/:sid/del', controller.site.delete); // 删除网站
 
   router.get('/site/list', controller.site.list); // 显示网站列表
   router.post('/upload', controller.site.upload); // 上传
+
+  // 分类
+  router.get('/cate/create', controller.cate.create); // 创建页面
+  router.post('/cate/create', controller.cate.save); // 保存分类
+
+  router.get('/cate/:id/edit', controller.cate.showEdit); // 显示编辑页面
+  router.post('/cate/:id/edit', controller.cate.update); // 更新分类
+  router.post('/cate/:id/del', controller.cate.delete); // 删除分类
+
+  router.get('/cate/list', controller.cate.list); // 分类列表
+
+  // 标签
+  router.get('/tags/list', controller.tags.list); // 标签列表
 };

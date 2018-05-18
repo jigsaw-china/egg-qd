@@ -9,8 +9,7 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
-    title: STRING(30),
-    cate_id: INTEGER,
+    title: STRING(50),
     created_at: DATE,
     updated_at: DATE,
   });

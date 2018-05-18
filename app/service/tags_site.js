@@ -2,21 +2,9 @@
 
 const Service = require('egg').Service;
 
-class TagService extends Service {
-  async find(id) {
-    const tag = await this.ctx.model.Tag.findById(id);
-    if (!tag) {
-      this.ctx.throw(404, 'tag not found');
-    }
-    return tag;
-  }
-
-  async findAll() {
-    return await this.ctx.model.Tag.findAll();
-  }
-
+class TagsSiteService extends Service {
   // 返回 tag_ids
-  async findTagsById(sid) {
+  async findBySiteId(sid) {
     return await this.ctx.model.SiteTag.findAll({
       where: {
         site_id: sid,
@@ -24,10 +12,6 @@ class TagService extends Service {
     }).map(function(item) {
       return item.tag_id;
     });
-  }
-
-  async bulkCreate(records) {
-    return this.ctx.model.Tag.bulkCreate(records);
   }
 
   // 关联关系
@@ -43,4 +27,4 @@ class TagService extends Service {
   }
 }
 
-module.exports = TagService;
+module.exports = TagsSiteService;

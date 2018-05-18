@@ -4,12 +4,11 @@ const Controller = require('egg').Controller;
 
 class SiteController extends Controller {
   /**
-   * 单个
+   * 获取信息
    */
   async index(ctx) {
     const params = ctx.params;
     const id = params.id;
-    console.log(id);
     if (isNaN(id)) {
       ctx.body = {
         success: false,

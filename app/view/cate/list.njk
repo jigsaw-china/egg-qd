@@ -1,0 +1,58 @@
+{% extends "layout.njk" %}
+{% block content %}
+    <div class="row animated fadeInUp">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-content">
+                    <div class="table-responsive">
+                        <table id="data_table" class="data-table table table-striped nowrap table-hover" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>图标</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in cates %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td><a href="/cate/{{ item.id }}/edit">{{ item.title }}</a></td>
+                                    <td><span class="fa {{ item.iconfont }}"></span></td>
+                                    <td title="{{ helper.relativeTime(item.updated_at) }}">{{ helper.ago(item.updated_at) }}</td>
+                                    <td>
+                                        <a href="/cate/{{ item.id }}/edit">编辑</a>
+                                        <a class="del" href="/cate/{{ item.id }}/del">删除</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!-- scripts -->
+    {{ Loader('/public/site.list.min.js')
+    .js('/public/vendor/data-table/media/js/jquery.dataTables.min.js')
+    .js('/public/vendor/data-table/media/js/dataTables.bootstrap.min.js')
+    .done(assets, config.site_static_host, config.mini_assets) | safe }}
+    <script>
+      $('#data_table').DataTable({ pageLength: 10 });
+
+      $('#data_table .del').click(function(e) {
+        e.preventDefault();
+        var _this = this, href = $(_this).attr('href') + '?_csrf={{ csrf }}';
+        $.post(href, function(data) {
+          console.log(data);
+          $(_this).closest('tr').remove();
+        });
+      })
+    </script>
+{% endblock %}

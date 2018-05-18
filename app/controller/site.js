@@ -13,7 +13,7 @@ class SiteController extends Controller {
    */
   async create() {
     const { ctx, service } = this;
-    const tags = await service.tag.findAll();
+    const tags = await service.tags.findAll();
     await ctx.render('/site/index', { tags });
   }
 
@@ -30,8 +30,8 @@ class SiteController extends Controller {
       return;
     }
     const site = await service.site.findById(sid);
-    const tags = await service.tag.findAll();
-    const tag_ids = await service.tag.findTagsById(sid);
+    const tags = await service.tags.findAll();
+    const tag_ids = await service.tagsSite.findBySiteId(sid);
 
     tags.map(function(tag) {
       if (tag_ids.includes(tag.id)) {
@@ -40,7 +40,7 @@ class SiteController extends Controller {
       return tag;
     });
 
-    await ctx.render('/site/portal', { sid, site, tags });
+    await ctx.render('/site/index', { sid, site, tags });
   }
 
   /**
@@ -68,7 +68,6 @@ class SiteController extends Controller {
     }
     // END 验证信息的正确性
     if (msg) {
-      console.log(msg);
       ctx.status = 422;
       await ctx.render('error', {
         error: msg,
@@ -95,7 +94,7 @@ class SiteController extends Controller {
     });
 
     // 保存标签
-    const tag_list = await service.tag.bulkCreate(records);
+    const tag_list = await service.tags.bulkCreate(records);
     tag_list.forEach(function(tag) {
       records_tag.push({
         site_id: site.id,
@@ -104,7 +103,7 @@ class SiteController extends Controller {
     });
 
     // 保存标签关联
-    await service.tag.bulkCreateSite(records_tag);
+    await service.tagsSite.bulkCreateSite(records_tag);
 
     await ctx.redirect('/site/list');
   }
@@ -133,7 +132,6 @@ class SiteController extends Controller {
     }
     // END 验证信息的正确性
     if (msg) {
-      console.log(msg);
       ctx.status = 422;
       await ctx.render('error', {
         error: msg,
@@ -160,7 +158,7 @@ class SiteController extends Controller {
     });
 
     // 保存标签
-    const tag_list = await service.tag.bulkCreate(records);
+    const tag_list = await service.tags.bulkCreate(records);
     tag_list.forEach(function(tag) {
       records_tag.push({
         site_id: sid,
@@ -169,10 +167,10 @@ class SiteController extends Controller {
     });
 
     // 删除标签关联
-    await service.tag.delBySiteId(sid);
+    await service.tagsSite.delBySiteId(sid);
 
     // 保存标签关联
-    await service.tag.bulkCreateSite(records_tag);
+    await service.tagsSite.bulkCreateSite(records_tag);
 
     await ctx.redirect('/site/list');
   }

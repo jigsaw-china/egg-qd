@@ -7,9 +7,13 @@ module.exports = app => {
   const apiV1Router = app.router.namespace('/api/v1');
   const { controller, middleware } = app;
 
-  const { site } = controller.api;
+  const { site, cate } = controller.api;
 
-  // 所有网站
+  // 网站列表
   apiV1Router.get('/sites', site.list);
   apiV1Router.get('/sites/:id', site.index);
+
+  // 分类列表
+  apiV1Router.get('/cates', cate.list);
+
 };
