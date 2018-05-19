@@ -41,6 +41,29 @@ class SiteController extends Controller {
     const options = {};
     options.order = [];
 
+    // 标签
+    if (query.tags) {
+      const opt = {
+        attributes: [ 'site_id' ],
+        where: {
+          tag_id: {
+            $in: query.tags.split(','),
+          },
+        },
+        group: 'site_id',
+      };
+
+      // 网站ids
+      const sids = await ctx.service.tagsSite.findAllByQuery(opt);
+
+      options.where = {
+        id: {
+          $in: sids,
+        },
+      };
+    }
+
+    // 类型
     if (query.type === 'hot') { // 热门
       options.order.push([ 'visit_count', 'DESC' ]);
     } else if (query.type === 'new') { // 最新

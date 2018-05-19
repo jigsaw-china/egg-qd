@@ -11,8 +11,7 @@ class SiteController extends Controller {
     const cates = await ctx.service.cate.findAll();
     const result = [];
 
-    for (let i = 0; i < cates.length; i++) {
-      const item = cates[i];
+    for (const item of cates) {
       const cate = {};
       cate.id = item.id;
       cate.title = item.title;

@@ -14,6 +14,12 @@ class TagsSiteService extends Service {
     });
   }
 
+  async findAllByQuery(options) {
+    return await this.ctx.model.SiteTag.findAll(options).map(function(item) {
+      return item.site_id;
+    });
+  }
+
   // 关联关系
   async bulkCreateSite(records) {
     return this.ctx.model.SiteTag.bulkCreate(records);
