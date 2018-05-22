@@ -111,10 +111,9 @@ module.exports = app => {
       if (!user) {
         return user;
       }
-
-      if (ctx.app.config.admins.hasOwnProperty(user.loginname)) {
-        user.is_admin = true;
-      }
+      // if (ctx.app.config.admins.hasOwnProperty(user.ADMIN_USER)) {
+      //   user.is_admin = true;
+      // }
     }
 
     return user;

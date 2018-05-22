@@ -4,6 +4,10 @@ const path = require('path');
 module.exports = appInfo => {
   const config = exports = {};
 
+  config.title = 'web前端站-后台';
+  config.keywords = 'web前端站';
+  config.description = 'web前端站';
+
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1525226392025_2580';
 
@@ -72,11 +76,11 @@ module.exports = appInfo => {
   config.locals = {
     enable: true,
     ignore: '/api/*/*',
-  }
+  };
 
   config.authUser = {
     enable: true,
-    match: '/admin',
+    match: '/',
   };
 
   config.default_page = 1;
